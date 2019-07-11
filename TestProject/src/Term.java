@@ -92,10 +92,9 @@ public class Term {
     }
 
     public static void main(String[] args){
-        Term t1 = new Term(1,1);
-        Term t2 = new Term(1,2);
-        Polynomial p1 = t1.add(t2);
-        System.out.println(p1.times(t1));
+
+
+
 
     }
 }

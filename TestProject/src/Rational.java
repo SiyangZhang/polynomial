@@ -132,6 +132,11 @@ public class Rational implements Comparable<Rational>{
         denominator = 1;
     }
 
+    public Rational(int n){
+        numerator = n;
+        denominator = 1;
+    }
+
     public int getNumerator() {
         return numerator;
     }
