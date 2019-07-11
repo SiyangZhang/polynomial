@@ -14,8 +14,8 @@ public class IntRoot {
     public void cancellation(){
         int i = 2;
         Rational q = new Rational(i);
-        while(power(i,4) <= base/2){
-            int factor = power(i,4);
+        while(power(i,root) <= base/2){
+            int factor = power(i,root);
             if(base%factor == 0){
                 base /= factor;
                 coefficient *= i;
@@ -117,12 +117,7 @@ public class IntRoot {
 
 
     public static void main(String[] args){
-        for(int i = 0; i < 10; i+=3){
-            System.out.println(i);
-            if(i == 9){
-                i = 1;
-                continue;
-            }
-        }
+        IntRoot rt = new IntRoot(2,3,54);
+        System.out.println(rt);
     }
 }
