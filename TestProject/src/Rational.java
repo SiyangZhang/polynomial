@@ -23,17 +23,15 @@ public class Rational extends Number implements Comparable<Rational>{
     public void cancellation(){
 
         int sign = 1;
-        try {
-            sign = numerator*denominator;
-            if(sign > 0){
-                sign = 1;
-            }else if(sign < 0){
-                sign = -1;
-            }else{
-                sign = 0;
-            }
-        }catch(Exception e){
 
+        if(numerator == 0 || denominator == 0){
+            sign = 0;
+        }else if(numerator > 0 && denominator > 0){
+            sign = 1;
+        }else if(numerator < 0 && denominator < 0){
+            sign = 1;
+        }else{
+            sign = -1;
         }
 
         denominator = Math.abs(denominator);
@@ -54,7 +52,7 @@ public class Rational extends Number implements Comparable<Rational>{
         denominator/=y;
 
         numerator *= sign;
-
+//        System.out.println(numerator + "   " + denominator);
     }
 
     @Override
@@ -106,6 +104,7 @@ public class Rational extends Number implements Comparable<Rational>{
         Rational result = new Rational();
         result.setNumerator(this.numerator * q.numerator);
         result.setDenominator(this.denominator * q.denominator);
+
         result.cancellation();
         return result;
     }
@@ -737,10 +736,10 @@ public class Rational extends Number implements Comparable<Rational>{
 
     public static void main(String[] args) throws IOException {
 
-        String str = "abcad;";
-        System.out.println(str.indexOf("a"));
-        Dictionary<String,String> dict = new Hashtable<>();
-        Map<String,String> map = new HashMap<>();
+        Rational a = new Rational(124206,124206);
+
+
+        System.out.println(a);
 
 
 

@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class Matrix {
     Rational[][] box;
     int row;
@@ -185,14 +187,9 @@ public class Matrix {
                             }
                         }
 
-
-
-
-
                         if(box[r][r].equals(Rational.ZERO)){
                             return Rational.ZERO;
                         }
-
 
                         Rational divisor = new Rational(box[r][r].numerator,box[r][r].denominator);
                         mul = mul.times(divisor);
@@ -214,9 +211,10 @@ public class Matrix {
                 }
 
 
-            for(int i = 0; i < row; i++){
-                mul = mul.times(box[i][i]);
-            }
+//            for(int i = 0; i < row; i++){
+//                mul = mul.times(box[i][i]);
+//            }
+            mul = mul.times(B.trace());
 
 
             return mul;
@@ -254,50 +252,66 @@ public class Matrix {
                 }
 
 
-
-
-
                 if(box[r][r].equals(Rational.ZERO)){
                     return null;
                 }
 
 
-
                 Rational divisor = new Rational(box[r][r].numerator,box[r][r].denominator);
-                Rational resDivisor = new Rational(res.box[r][r].numerator,res.box[r][r].denominator);
+
                 for (int j = 0; j < col; j++) {
                     box[r][j] = box[r][j].divide(divisor);
                     res.box[r][j] = res.box[r][j].divide(divisor);
                 }
 
-
-
+//                System.out.println("row " + (r+1) + " divide " + divisor);
 //                System.out.println(B);
-//                System.out.println(res + "\n---------------------------+++++------------");
+//                System.out.println(res);
+//                System.out.println("----------------------------------------------------------");
+
 
                 for(int j = 0; j < row; j++){
                     if(j != r){
                         Rational multi = new Rational(box[j][r].numerator,box[j][r].denominator);
                         B.addMultipleRowsTo(multi.inverse(), r, j);
                         res.addMultipleRowsTo(multi.inverse(),r,j);
-//                        System.out.println("第"+(r+1)+"行 乘" + multi.inverse() + " 加到第"+(j+1)+"行");
+//                        System.out.println("row " + (r+1) + " times " + multi.inverse() + ", and add to row " + (j+1));
 //                        System.out.println(B);
-//                        System.out.println(res + "\n---------------------------+++++------------");
+//                        System.out.println(res);
+//                        System.out.println("----------------------------------------------------------");
                     }
                 }
 
 
 
-
-
-//                        System.out.println(this.toString());
-//                        System.out.println(mul);
-
             }
             return res;
         }
 
-//        return res;
+    }
+
+    public Rational trace(){
+        if(row != col){
+            return null;
+        }else{
+            Rational res = Rational.ONE;
+            for(int i = 0; i < row; i++){
+                res = res.times(box[i][i]);
+            }
+            return res;
+        }
+    }
+
+    public static Matrix randomGenerate(int row, int col,int bound){
+        Rational[][] box = new Rational[row][col];
+        Random random = new Random();
+        for(int i = 0; i < row; i++){
+            for(int j = 0; j < col; j++){
+                box[i][j] = new Rational(random.nextInt(bound));
+            }
+        }
+
+        return new Matrix(box);
     }
 
 
@@ -306,14 +320,24 @@ public class Matrix {
     public static void main(String[] args){
 
         int[][] a = {
-                {1,1,0},
-                {2,7,5},
-                {6,4,9},
-};
+                {9,7,7,3},
+                {0,4,3,2},
+                {1,1,8,2},
+                {6,3,3,3}
 
-        Matrix A = new Matrix(a);
+        };
+
+        Matrix A = Matrix.randomGenerate(5,5,10);
+
+        System.out.println(A);
+        System.out.println(Matrix.identityMatrix(4)+"\n-------------------------------------------------");
+//        System.out.println(A.det());
         System.out.println(A.inverse());
-        System.out.println(A.det());
+        System.out.println(A.times(A.inverse()));
+
+
+
+
 //        System.out.println(A);
 //        Matrix B = A.transpose();
 //        System.out.println(A);
@@ -322,6 +346,7 @@ public class Matrix {
 //        Rational r1 = new Rational(5,4);
 //        Rational r2 = new Rational(3,7);
 //        System.out.println(r1.divide(r2));
+
 
 
     }
